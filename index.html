@@ -30,11 +30,21 @@
     <div id="map"></div>
     <div class="bg-dark mt-5 p-3" id="sidebar">
       <h2 class="text-center text-light">Search</h2>
-      <input
-        type="search"
-        class="form-control"
-        placeholder="e.g. Starbucks..."
-      />
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="search-addon"
+            ><i class="fas fa-search"></i
+          ></span>
+        </div>
+        <input
+          type="search"
+          class="form-control"
+          placeholder="e.g. Starbucks..."
+          aria-label="Search"
+          aria-describedby="searchaddon"
+        />
+      </div>
+
       <hr />
       <div id="results"></div>
     </div>
