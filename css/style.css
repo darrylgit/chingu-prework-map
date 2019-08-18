@@ -1,3 +1,7 @@
+body {
+  height: 100vh;
+}
+
 #toggle {
   border: 2px solid #737373;
 }
@@ -20,6 +24,12 @@ hr {
   color: white;
   background-color: white;
 }
+/*
+#map {
+  height: 300px;
+  width: 400px;
+}
+*/
 
 @media (max-width: 575.98px) {
   .navbar-brand {

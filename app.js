@@ -1,9 +1,13 @@
 $(document).ready(function() {
   // Sidebar toggle variables
-  const openerIcon = "fa-angle-double-right";
+  const openerIcon = $("#toggleIcon")
+    .attr("class")
+    .split(" ")[1];
   const closerIcon = "fa-angle-double-left";
   const toggleSpeed = 300;
   const visibleEdge = 15;
+
+  // Set inital position of sidebar using above visibleEdge constant
   let leftWhenHidden = (function(edge) {
     let units = $("#sidebar")
       .css("width")
@@ -33,5 +37,16 @@ $(document).ready(function() {
       //$("#sidebar").animate({ left: sidebarHidden(visibleEdge) }, toggleSpeed);
       $("#sidebar").animate({ left: leftWhenHidden }, toggleSpeed);
     }
+  });
+
+  // Display map
+  mapboxgl.accessToken =
+    "pk.eyJ1Ijoic2lnbmlvcmdyYXRpYW5vIiwiYSI6ImNqemcxdHZrNTBkeWUzbXBoZDBicnMxNXEifQ.yBDCU__0UQAqqZDlbzpHgQ";
+
+  let map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/streets-v9",
+    center: [-84.174, 34.037],
+    zoom: 12.1
   });
 });
