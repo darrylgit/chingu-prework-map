@@ -14,7 +14,7 @@ body {
 #sidebar {
   height: 630px;
   width: 330px;
-  left: -330px;
+  left: -330px; /* modified upon document ready in jQuery */
   position: fixed;
   top: 7%;
   border-radius: 0px 10px 10px 0px;
@@ -24,12 +24,11 @@ hr {
   color: white;
   background-color: white;
 }
-/*
+
 #map {
-  height: 300px;
-  width: 400px;
+  height: 100%;
+  width: 100%;
 }
-*/
 
 @media (max-width: 575.98px) {
   .navbar-brand {

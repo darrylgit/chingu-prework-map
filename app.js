@@ -1,9 +1,7 @@
 $(document).ready(function() {
   // Sidebar toggle variables
-  const openerIcon = $("#toggleIcon")
-    .attr("class")
-    .split(" ")[1];
-  const closerIcon = "fa-angle-double-left";
+  const openerIcon = $("#toggleIcon").attr("class");
+  const closerIcon = "fas fa-angle-double-left";
   const toggleSpeed = 300;
   const visibleEdge = 15;
 
@@ -24,17 +22,15 @@ $(document).ready(function() {
 
   // Toggle sidebar
   $("#toggle").click(function() {
-    if ($("#toggleIcon").attr("class") == "fas " + openerIcon) {
-      //setHiddenValue();
+    if ($("#toggleIcon").attr("class") == openerIcon) {
       $("#toggleIcon")
         .removeClass(openerIcon)
         .addClass(closerIcon);
       $("#sidebar").animate({ left: 0 }, toggleSpeed);
-    } else if ($("#toggleIcon").attr("class") == "fas " + closerIcon) {
+    } else if ($("#toggleIcon").attr("class") == closerIcon) {
       $("#toggleIcon")
         .removeClass(closerIcon)
         .addClass(openerIcon);
-      //$("#sidebar").animate({ left: sidebarHidden(visibleEdge) }, toggleSpeed);
       $("#sidebar").animate({ left: leftWhenHidden }, toggleSpeed);
     }
   });
@@ -48,5 +44,32 @@ $(document).ready(function() {
     style: "mapbox://styles/mapbox/streets-v9",
     center: [-84.174, 34.037],
     zoom: 12.1
+  });
+
+  // Coordinates for bound box
+  const minLon = "-84.248114";
+  const minLat = "33.985034";
+  const maxLon = "-84.096369";
+  const maxLat = "34.110766";
+
+  $("#search").on("change keyup blur", function() {
+    if ($("#search").val()) {
+      // Make API request
+      let query = $("#search").val();
+      fetch(
+        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+          query +
+          `.json?bbox=${minLon},${minLat},${maxLon},${maxLat}&access_token=` +
+          mapboxgl.accessToken
+      )
+        .then(response => response.json())
+        .then(function(jsonResponse) {
+          // Make array of place names from search results
+          let results = jsonResponse.features;
+          let places = [];
+          results.forEach(result => places.push(result.place_name));
+          console.log(places);
+        });
+    }
   });
 });
