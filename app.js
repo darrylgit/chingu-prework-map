@@ -56,6 +56,8 @@ $(document).ready(function() {
   const maxLon = centerLon + lonOffset;
   const maxLat = centerLat + latOffset;
 
+  let popups = [];
+
   // Search function
   $("#search").on("keyup", function() {
     // Declare promise to clear previous search results
@@ -64,6 +66,7 @@ $(document).ready(function() {
         $(".mapboxgl-marker").remove();
         $(".search-result").remove();
         $(".mapboxgl-popup").remove();
+        popups = [];
 
         if ($("#results").find(".search-result").length == 0) {
           resolve();
@@ -90,6 +93,7 @@ $(document).ready(function() {
             // Make array of place names from search results
             let results = jsonResponse.features;
             let places = [];
+
             function Place(name, address, addressLong, lat, lon) {
               this.name = name;
               this.address = address;
@@ -117,29 +121,65 @@ $(document).ready(function() {
               }
             });
 
-            console.log(places);
+            // Create index that will be used to forge a connection between popup and sidebar search result
+            let resultIndex = 0;
 
             places.forEach(function(place) {
+              // Prevent against corner case of more than 5 search results
               if ($("#results").find(".search-result").length >= 5) {
                 $(".mapboxgl-marker").remove();
                 $(".search-result").remove();
                 $(".mapboxgl-popup").remove();
+                popups = [];
               }
 
-              $("#results").append(`<div class="search-result">
+              // Append result of id resultIndex to sidebar
+              $(
+                "#results"
+              ).append(`<div class="search-result" id="${resultIndex}">
               <h3>${place.name}</h3>
               <p>${place.address}</p>
               </div>`);
 
-              var popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-                `<h4>${place.name}</h4><p>${place.addressLong}</p>`
-              );
+              // Create popup with class resultIndex
+              var popup = new mapboxgl.Popup({
+                offset: 25,
+                className: `${resultIndex}`
+              }).setHTML(`<h4>${place.name}</h4><p>${place.addressLong}</p>`);
 
+              popups.push(popup);
+
+              // Create marker, attach popup
               new mapboxgl.Marker()
                 .setLngLat([place.lon, place.lat])
                 .setPopup(popup)
                 .addTo(map);
+
+              resultIndex++;
             });
+
+            // Display corresponding popup upon sidebar search result hover
+            $(".search-result").mouseenter(function() {
+              console.log("triggered");
+              let index = this.id;
+              console.log(index);
+              let resultPopup = popups[index];
+              if (!resultPopup.isOpen()) {
+                resultPopup.addTo(map);
+              }
+            });
+            $(".search-result").mouseleave(function() {
+              let index = this.id;
+              let resultPopup = popups[index];
+              if (resultPopup.isOpen()) {
+                resultPopup.remove();
+              }
+            });
+
+            console.log(popups);
+            /*popups.forEach(function(item) {
+              item.addTo(map);
+            });*/
           });
       }
     }
@@ -148,4 +188,23 @@ $(document).ready(function() {
       .then(newSearch)
       .catch(err => console.log(err));
   });
+
+  // Display corresponding popup upon sidebar search result hover
+  /*
+  $(".search-result").mouseenter(function() {
+    console.log(popups);
+    let index = $(".search-result").attr("id");
+    let resultPopup = popups[index];
+    if (!resultPopup.isOpen()) {
+      resultPopup.addTo(map);
+    }
+  });
+  $(".search-result").mouseleave(function() {
+    let index = $(".search-result").attr("id");
+    let resultPopup = popups[index];
+    if (resultPopup.isOpen()) {
+      resultPopup.remove();
+    }
+  });
+  */
 });

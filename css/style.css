@@ -23,6 +23,10 @@ SIDEBAR
 ==========================
 */
 
+hr {
+  margin-bottom: 10px;
+}
+
 #sidebar {
   height: 630px;
   width: 330px;
@@ -30,7 +34,6 @@ SIDEBAR
   position: fixed;
   top: 7%;
   border-radius: 0px 10px 10px 0px;
-  
 }
 
 hr {
@@ -50,6 +53,12 @@ hr {
 
 .search-result {
   color: white;
+  border-bottom: 1px solid white;
+  margin-bottom: 10px;
+}
+
+.search-result:hover {
+  background-color: #b2b2b2;
 }
 
 /* 
@@ -64,5 +73,3 @@ MEDIA QUERIES
     margin-right: 0;
   }
 }
-
-
