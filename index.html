@@ -29,7 +29,7 @@
     <!-- START HERE -->
     <nav class="navbar fixed-top navbar-dark bg-dark">
       <button class="btn btn-lg btn-dark mb-1" id="toggle">
-        <i class="fas fa-angle-double-right" id="toggleIcon"></i>
+        <i class="fas fa-angle-double-left" id="toggleIcon"></i>
       </button>
       <span class="navbar-brand h1 mb-0">Johns Creek, GA</span>
     </nav>
@@ -45,6 +45,7 @@
           ></span>
         </div>
         <input
+          autofocus
           type="search"
           class="form-control"
           placeholder="e.g. Starbucks..."
@@ -55,7 +56,12 @@
       </div>
 
       <hr />
-      <div id="results"></div>
+      <div id="resultsContainer">
+        <div id="results">
+
+        </div>
+      </div>
+      
     </div>
 
     <script
