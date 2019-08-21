@@ -1,3 +1,9 @@
+/* 
+==========================
+DOCUMENT
+==========================
+*/
+
 body {
   height: 100vh;
 }
@@ -15,6 +21,18 @@ NAVBAR
 .navbar-brand {
   margin-right: auto;
   margin-left: auto;
+}
+
+/* 
+==========================
+MAP
+==========================
+*/
+
+#map {
+  margin-top: 70px;
+  height: 100%;
+  width: 100%;
 }
 
 /* 
@@ -39,11 +57,8 @@ hr {
 hr {
   color: white;
   background-color: white;
-}
-
-#map {
-  height: 100%;
-  width: 100%;
+  width: 95%;
+  margin-bottom: 0;
 }
 
 #results {
@@ -52,13 +67,26 @@ hr {
 }
 
 .search-result {
+  float: left;
+  width: 100%;
   color: white;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 10px 3px 0 5px;
+}
+
+/* Shoutout to Kolten Craft @ https://www.steckinsights.com/shorten-length-border-bottom-pure-css/  */
+.search-result:not(:first-of-type):before {
+  content: "";
+  display: block;
+  margin: -10px auto 10px auto;
+  padding: 0;
+  width: 95%;
   border-bottom: 1px solid white;
-  margin-bottom: 10px;
 }
 
 .search-result:hover {
-  background-color: #b2b2b2;
+  background-color: #7e7e7e;
 }
 
 /* 

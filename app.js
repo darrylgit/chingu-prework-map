@@ -3,7 +3,7 @@ $(document).ready(function() {
   const openerIcon = "fas fa-angle-double-right";
   const closerIcon = $("#toggleIcon").attr("class");
   const toggleSpeed = 300;
-  const visibleEdge = 15;
+  const visibleEdge = 10;
 
   // Set inital position of sidebar using above visibleEdge constant
   let leftWhenHidden = (function(edge) {
@@ -82,6 +82,7 @@ $(document).ready(function() {
         let query = $("#search")
           .val()
           .replace(" ", "%20");
+
         fetch(
           "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
             query +
@@ -89,11 +90,8 @@ $(document).ready(function() {
             mapboxgl.accessToken
         )
           .then(response => response.json())
-          .then(function(jsonResponse) {
-            // Make array of place names from search results
-            let results = jsonResponse.features;
-            let places = [];
-
+          .then(jsonResponse => {
+            // Object prototype definition
             function Place(name, address, addressLong, lat, lon) {
               this.name = name;
               this.address = address;
@@ -102,7 +100,11 @@ $(document).ready(function() {
               this.lon = lon;
             }
 
-            results.forEach(function(result) {
+            // Make array of place names from search results
+            let results = jsonResponse.features;
+            let places = [];
+
+            results.forEach(result => {
               let name = result.place_name.split(",").slice(0, 1);
               let address = result.place_name
                 .split(",")
@@ -124,7 +126,7 @@ $(document).ready(function() {
             // Create index that will be used to forge a connection between popup and sidebar search result
             let resultIndex = 0;
 
-            places.forEach(function(place) {
+            places.forEach(place => {
               // Prevent against corner case of more than 5 search results
               if ($("#results").find(".search-result").length >= 5) {
                 $(".mapboxgl-marker").remove();
@@ -134,9 +136,8 @@ $(document).ready(function() {
               }
 
               // Append result of id resultIndex to sidebar
-              $(
-                "#results"
-              ).append(`<div class="search-result" id="${resultIndex}">
+              $("#results")
+                .append(`<div class="search-result" id="${resultIndex}">
               <h3>${place.name}</h3>
               <p>${place.address}</p>
               </div>`);
@@ -144,7 +145,7 @@ $(document).ready(function() {
               // Create popup with class resultIndex
               var popup = new mapboxgl.Popup({
                 offset: 25,
-                className: `${resultIndex}`
+                closeButton: false
               }).setHTML(`<h4>${place.name}</h4><p>${place.addressLong}</p>`);
 
               popups.push(popup);
@@ -160,9 +161,7 @@ $(document).ready(function() {
 
             // Display corresponding popup upon sidebar search result hover
             $(".search-result").mouseenter(function() {
-              console.log("triggered");
               let index = this.id;
-              console.log(index);
               let resultPopup = popups[index];
               if (!resultPopup.isOpen()) {
                 resultPopup.addTo(map);
@@ -175,11 +174,6 @@ $(document).ready(function() {
                 resultPopup.remove();
               }
             });
-
-            console.log(popups);
-            /*popups.forEach(function(item) {
-              item.addTo(map);
-            });*/
           });
       }
     }
@@ -188,23 +182,4 @@ $(document).ready(function() {
       .then(newSearch)
       .catch(err => console.log(err));
   });
-
-  // Display corresponding popup upon sidebar search result hover
-  /*
-  $(".search-result").mouseenter(function() {
-    console.log(popups);
-    let index = $(".search-result").attr("id");
-    let resultPopup = popups[index];
-    if (!resultPopup.isOpen()) {
-      resultPopup.addTo(map);
-    }
-  });
-  $(".search-result").mouseleave(function() {
-    let index = $(".search-result").attr("id");
-    let resultPopup = popups[index];
-    if (resultPopup.isOpen()) {
-      resultPopup.remove();
-    }
-  });
-  */
 });
