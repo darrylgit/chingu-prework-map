@@ -136,63 +136,64 @@ $(document).ready(function() {
   }
 
   // Search function
-  $("#search").on("keyup", function() {
-    function newSearch() {
-      if ($("#search").val()) {
-        // Make API request
-        let query = $("#search")
-          .val()
-          .replace(" ", "%20");
+  function newSearch() {
+    if ($("#search").val()) {
+      // Make API request
+      let query = $("#search")
+        .val()
+        .replace(" ", "%20");
 
-        let url =
-          "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-          query +
-          `.json?bbox=${minLon},${minLat},${maxLon},${maxLat}&access_token=` +
-          mapboxgl.accessToken;
+      let url =
+        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+        query +
+        `.json?bbox=${minLon},${minLat},${maxLon},${maxLat}&access_token=` +
+        mapboxgl.accessToken;
 
-        fetch(url)
-          .then(response => response.json())
-          .then(jsonResponse => {
-            let results = jsonResponse.features;
+      fetch(url)
+        .then(response => response.json())
+        .then(jsonResponse => {
+          let results = jsonResponse.features;
 
-            // Make array of place names from search results
-            populatePlacesBuffer(results);
+          // Make array of place names from search results
+          populatePlacesBuffer(results);
 
-            // Create index that will be used to forge a connection between popup and sidebar search result
-            let resultIndex = 0;
+          // Create index that will be used to forge a connection between popup and sidebar search result
+          let resultIndex = 0;
 
-            // Append search results to sidebar, create markers and popups
-            places.forEach(place => {
-              // Prevent against corner case of more than 5 search results
-              if ($("#results").find(".search-result").length >= 5) {
-                clearPreviousSearch();
-              }
+          // Append search results to sidebar, create markers and popups
+          places.forEach(place => {
+            // Prevent against corner case of more than 5 search results
+            if ($("#results").find(".search-result").length >= 5) {
+              clearPreviousSearch();
+            }
 
-              appendToSidebar(place, resultIndex);
-              let newPopup = createPopup(place);
-              createMarker(place, newPopup);
-              resultIndex++;
-            });
-
-            // Once popups and sidebar results have been created, display popups on sidebar hover
-            $(".search-result").mouseenter(function() {
-              let index = this.id;
-              let resultPopup = popups[index];
-              if (!resultPopup.isOpen()) {
-                resultPopup.addTo(map);
-              }
-            });
-            $(".search-result").mouseleave(function() {
-              let index = this.id;
-              let resultPopup = popups[index];
-              if (resultPopup.isOpen()) {
-                resultPopup.remove();
-              }
-            });
+            appendToSidebar(place, resultIndex);
+            let newPopup = createPopup(place);
+            createMarker(place, newPopup);
+            resultIndex++;
           });
-      }
-    }
 
+          // Once popups and sidebar results have been created, display popups on sidebar hover
+          $(".search-result").mouseenter(function() {
+            let index = this.id;
+            let resultPopup = popups[index];
+            if (!resultPopup.isOpen()) {
+              resultPopup.addTo(map);
+            }
+          });
+          $(".search-result").mouseleave(function() {
+            let index = this.id;
+            let resultPopup = popups[index];
+            if (resultPopup.isOpen()) {
+              resultPopup.remove();
+            }
+          });
+        });
+    }
+  }
+
+  // Searchbar keyup event
+  $("#search").on("keyup", function() {
     clearPromise()
       .then(newSearch)
       .catch(err => console.log(err));
