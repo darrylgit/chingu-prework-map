@@ -8,7 +8,7 @@ $(document).ready(function() {
   const openerIcon = "fas fa-angle-double-right";
   const closerIcon = $("#toggleIcon").attr("class");
   const toggleSpeed = 300;
-  const visibleEdge = 10;
+  let visibleEdge = 10;
 
   // Coordinates
   const centerLon = -84.212;
@@ -31,13 +31,28 @@ $(document).ready(function() {
   let popups = [];
   let places = [];
 
+  // Responsive zoom
+  let zoomParameter = 12.1;
+
+  if ($(window).width() < 576) {
+    zoomParameter = 10.9;
+    visibleEdge = 0;
+
+    $(window).resize(function() {
+      let newLeftValue = leftWhenHidden(visibleEdge);
+      if ($("#toggleIcon").attr("class") == openerIcon) {
+        $("#sidebar").css("left", newLeftValue);
+      }
+    });
+  }
+
   /*
   ========================================
     SIDEBAR TOGGLE
   ========================================
   */
-  // Set inital position of sidebar using above visibleEdge constant
-  let leftWhenHidden = (function(edge) {
+  // Set hidden position of sidebar using above visibleEdge constant
+  let leftWhenHidden = function(edge) {
     let units = $("#sidebar")
       .css("width")
       .match(/\D/g)
@@ -48,7 +63,7 @@ $(document).ready(function() {
       .map(Number);
     widthValue[0] -= edge;
     return "-" + widthValue[0].toString() + units;
-  })(visibleEdge);
+  };
 
   // Toggle sidebar
   $("#toggle").click(function() {
@@ -61,7 +76,7 @@ $(document).ready(function() {
       $("#toggleIcon")
         .removeClass(closerIcon)
         .addClass(openerIcon);
-      $("#sidebar").animate({ left: leftWhenHidden }, toggleSpeed);
+      $("#sidebar").animate({ left: leftWhenHidden(visibleEdge) }, toggleSpeed);
     }
   });
 
@@ -76,7 +91,7 @@ $(document).ready(function() {
     container: "map",
     style: "mapbox://styles/mapbox/streets-v9",
     center: [centerLon, centerLat],
-    zoom: 12.1
+    zoom: zoomParameter
   });
 
   // Searchbar keyup event
@@ -234,18 +249,34 @@ $(document).ready(function() {
       let index = element.id;
       return popups[index];
     }
+    if ($(window).width() >= 576) {
+      $(".search-result").mouseenter(function() {
+        let resultPopup = popupThatCorrespondsTo(this);
+        if (!resultPopup.isOpen()) {
+          resultPopup.addTo(map);
+        }
+      });
+      $(".search-result").mouseleave(function() {
+        let resultPopup = popupThatCorrespondsTo(this);
+        if (resultPopup.isOpen()) {
+          resultPopup.remove();
+        }
+      });
+    } else {
+      $(".search-result").click(function() {
+        let resultPopup = popupThatCorrespondsTo(this);
+        if (!resultPopup.isOpen()) {
+          resultPopup.addTo(map);
+        }
 
-    $(".search-result").mouseenter(function() {
-      let resultPopup = popupThatCorrespondsTo(this);
-      if (!resultPopup.isOpen()) {
-        resultPopup.addTo(map);
-      }
-    });
-    $(".search-result").mouseleave(function() {
-      let resultPopup = popupThatCorrespondsTo(this);
-      if (resultPopup.isOpen()) {
-        resultPopup.remove();
-      }
-    });
+        $("#toggleIcon")
+          .removeClass(closerIcon)
+          .addClass(openerIcon);
+        $("#sidebar").animate(
+          { left: leftWhenHidden(visibleEdge) },
+          toggleSpeed
+        );
+      });
+    }
   }
 });
