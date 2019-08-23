@@ -205,9 +205,17 @@ $(document).ready(function() {
   }
 
   // Marker and popup constructors
+  let markerRadius = 10;
+  let popupOffsets = {
+    top: [0, 0],
+    bottom: [0, -25],
+    left: [markerRadius, 0],
+    right: [-markerRadius, 0]
+  };
+
   function createPopup(place) {
     var popup = new mapboxgl.Popup({
-      offset: 25,
+      offset: popupOffsets,
       closeButton: false
     }).setHTML(`<h4>${place.name}</h4><p>${place.addressLong}</p>`);
 
@@ -270,6 +278,11 @@ $(document).ready(function() {
     }
   }
 
+  /*
+  ========================================
+    RESPONSIVENESS
+  ========================================
+  */
   if ($(window).width() < 576) {
     zoomParameter = 10.9;
     visibleEdge = 0;
