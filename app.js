@@ -57,7 +57,7 @@ $(document).ready(function() {
       .map(Number);
     widthValue[0] -= edge;
     if ($(window).width() < 576) {
-      return "-100vw";
+      return "-50vw";
     } else {
       return "-" + widthValue[0].toString() + units;
     }

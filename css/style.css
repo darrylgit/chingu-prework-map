@@ -106,10 +106,12 @@ MEDIA QUERIES
 */
 
 @media (max-width: 575.98px) {
+  /*
   .navbar-brand {
     margin-left: auto;
     margin-right: 0;
   }
+  */
 
   nav {
     border-bottom: solid 1px white;
@@ -118,7 +120,7 @@ MEDIA QUERIES
   }
 
   #sidebar {
-    width: 80vw;
+    width: 50vw;
     height: calc(100vh - 4.375rem);
     height: calc(var(--vh, 1vh) * 100 - 4.375rem);
     top: 70px;
@@ -127,5 +129,9 @@ MEDIA QUERIES
   hr {
     margin-left: 5px;
     margin-right: 50px;
+  }
+
+  h3 {
+    font-size: 1.5rem;
   }
 }
