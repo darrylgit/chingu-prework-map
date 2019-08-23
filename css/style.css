@@ -119,7 +119,7 @@ MEDIA QUERIES
 
   #sidebar {
     width: 80vw;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 4.375rem);
     top: 70px;
   }
 
