@@ -118,7 +118,7 @@ MEDIA QUERIES
   }
 
   #sidebar {
-    width: 100vw;
+    width: 80vw;
     height: calc(100vh - 70px);
     top: 70px;
   }
