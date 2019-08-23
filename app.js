@@ -38,6 +38,7 @@ $(document).ready(function() {
   if ($(window).width() < 576) {
     zoomParameter = 10.9;
     visibleEdge = 0;
+    $("#search").attr("placeholder", "");
   }
 
   /*
@@ -318,13 +319,19 @@ $(document).ready(function() {
 
   // Corner case for desktop browser resizes across the 576px breakpoint
   $(window).resize(function() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
     if ($(window).width() < 576) {
+      $("#search").attr("placeholder", "");
       $("#results").css(
         "max-height",
         ($("#sidebar").height() - $("#searchHeader").height()).toString() + "px"
       );
+      visibleEdge = 0;
     } else {
+      $("#search").attr("placeholder", "e.g. Starbucks...");
       $("#results").css("max-height", "500px");
+      visibleEdge = 10;
     }
   });
 });

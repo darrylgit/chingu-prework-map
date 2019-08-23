@@ -40,18 +40,6 @@ MAP
 SIDEBAR
 ==========================
 */
-#searchHeader {
-  float: left;
-  width: 100%;
-  padding-bottom: 1rem;
-}
-
-hr {
-  float: left;
-  padding-top: 0;
-  margin: 0 5px 10px 5px;
-}
-
 #sidebar {
   height: 630px;
   width: 330px;
@@ -61,16 +49,33 @@ hr {
   border-radius: 0px 10px 10px 0px;
 }
 
+#searchHeader {
+  float: left;
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.input-group-prepend {
+  margin-left: 1rem;
+}
+
+#search {
+  margin-right: 1rem;
+}
+
 hr {
   color: white;
   background-color: white;
   width: 95%;
-  margin-bottom: 0;
+  float: left;
+  padding-top: 0;
+  margin: 0 5px 0 5px;
 }
 
 #resultsContainer {
   float: left;
 }
+
 #results {
   max-height: 500px;
   overflow-y: auto;
@@ -106,13 +111,6 @@ MEDIA QUERIES
 */
 
 @media (max-width: 575.98px) {
-  /*
-  .navbar-brand {
-    margin-left: auto;
-    margin-right: 0;
-  }
-  */
-
   nav {
     border-bottom: solid 1px white;
     height: 70px;
@@ -124,6 +122,14 @@ MEDIA QUERIES
     height: calc(100vh - 4.375rem);
     height: calc(var(--vh, 1vh) * 100 - 4.375rem);
     top: 70px;
+  }
+
+  .input-group-prepend {
+    margin-left: 0.5rem;
+  }
+
+  #search {
+    margin-right: 0.5rem;
   }
 
   hr {
