@@ -303,12 +303,17 @@ $(document).ready(function() {
     });
   }
 
+  /*
   if ($(window).width() < 576) {
     $("#results").css(
       "max-height",
       ($("#sidebar").height() - $("#searchHeader").height()).toString() + "px"
     );
   }
+  */
+
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
 
   $(window).resize(function() {
     if ($(window).width() < 576) {
