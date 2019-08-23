@@ -37,26 +37,28 @@
     <div id="map"></div>
 
     <div class="bg-dark" id="sidebar">
-      <h2 class="text-center text-light mt-3">Search</h2>
-      <div class="input-group">
-        <div class="input-group-prepend ml-2">
-          <span class="input-group-text" id="search-addon"
-            ><i class="fas fa-search"></i
-          ></span>
+      <div id="searchHeader" class="clearfix">
+        <h2 class="text-center text-light mt-3">Search</h2>
+        <div class="input-group">
+          <div class="input-group-prepend ml-2">
+            <span class="input-group-text" id="search-addon"
+              ><i class="fas fa-search"></i
+            ></span>
+          </div>
+          <input
+            autofocus
+            type="search"
+            class="form-control mr-2"
+            placeholder="e.g. Starbucks..."
+            aria-label="Search"
+            aria-describedby="searchaddon"
+            id="search"
+          />
         </div>
-        <input
-          autofocus
-          type="search"
-          class="form-control mr-2"
-          placeholder="e.g. Starbucks..."
-          aria-label="Search"
-          aria-describedby="searchaddon"
-          id="search"
-        />
       </div>
 
       <hr />
-      <div id="resultsContainer">
+      <div id="resultsContainer" class="clearfix">
         <div id="results"></div>
       </div>
     </div>
